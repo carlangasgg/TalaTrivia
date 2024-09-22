@@ -1,0 +1,14 @@
+#!/bin/bash
+
+if [ "$1" == "up" ]; then
+  docker-compose up --build
+elif [ "$1" == "down" ]; then
+  docker-compose down
+elif [ "$1" == "restart" ]; then
+  docker-compose down && docker-compose up --build
+elif [ "$1" == "console" ]; then
+  docker-compose exec web rails console
+else
+  echo "Usage: docker-rails {up|down|restart|console}"
+fi
+
