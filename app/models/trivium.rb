@@ -6,7 +6,7 @@ class Trivium < ApplicationRecord
   def generate_uid
     self.uid = loop do
       random_uid = SecureRandom.alphanumeric(12)
-      break random_uid unless Trivia.exists?(uid: random_uid)
+      break random_uid unless Trivium.exists?(uid: random_uid)
     end
   end
 end

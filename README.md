@@ -10,7 +10,7 @@ Este es el desarrollo de TalaTrivia desarrollado por Carlos Bugueño
 
 * Sistema de authenticación JWT vía gema Devise
 
-* Incluye ´docker-compose.yml´
+* Incluye `docker-compose.yml`
 
 ## SUPUESTOS A CONSIDERAR
 
@@ -30,13 +30,13 @@ Este es el desarrollo de TalaTrivia desarrollado por Carlos Bugueño
 
 Para levantar el Docker de esta API, considere los siguientes comandos:
 
-* ´./docker-rails up´ levanta el docker
+* `./docker-rails up´ levanta el docker`
 
-* ´./docker-rails down´ termina la ejecución del docker
+* `./docker-rails down` termina la ejecución del docker
 
-* ´./docker-rails restart´ termina la ejecución del docker e inmediatamente lo vuelve a iniciar
+* `./docker-rails restart` termina la ejecución del docker e inmediatamente lo vuelve a iniciar
 
-* ´./docker-rails console´ inicia la consola de Rails
+* `./docker-rails console` inicia la consola de Rails
 
 ## API
 
@@ -63,7 +63,7 @@ Para levantar el Docker de esta API, considere los siguientes comandos:
 #### Log out
 
 ```http
-  POST /logout
+  DELETE /logout
 ```
 
 | Descripción | Body                |
@@ -71,3 +71,12 @@ Para levantar el Docker de esta API, considere los siguientes comandos:
 | Cerrar sesión | `{ "user": { "email": "email", "password": "password" } }` |
 
 
+#### Ver trivias disponibles
+
+```http
+  GET /trivias/trivia
+```
+
+| Descripción | Body                |
+| :-------- | :------------------------- |
+| Enlistar trivias creadas | `-` |

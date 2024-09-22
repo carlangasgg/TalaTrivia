@@ -4,17 +4,17 @@ class Trivias::TriviaController < ApplicationController
 
 	def index
 		@trivia = Trivium.all
-    render json: @trivia
+		render json: TriviumSerializer.new(@trivia).serializable_hash[:data]
 	end
 
 	def show
-		render json: @trivium
+		render json: TriviumSerializer.new(@trivium)
 	end
 
 	def create
 		@trivium = Trivium.new(trivium_params)
 		if @trivium.save
-			render json: @trivium, status: :created 
+			render json: TriviumSerializer.new(@trivium).serializable_hash[:data][:attributes], status: :created 
 		else
 			render json: @trivium.errors, status: :unprocessable_entity
 		end
@@ -22,7 +22,7 @@ class Trivias::TriviaController < ApplicationController
 
 	def update
 		if @category.update(trivium_params)
-			render json: @trivium
+			render json: TriviumSerializer.new(@trivium).serializable_hash[:data][:attributes]
 		else
 			render json: @trivium.errors, status: :unprocessable_entity
 		end
@@ -38,6 +38,12 @@ class Trivias::TriviaController < ApplicationController
   end
 
 	private
+	
+	def authorize_admin
+		unless current_user.has_role?('admin')
+		  render json: { error: 'Unauthorized'}, status: :unauthorized
+		end
+	end
 
 	def set_trivium
     @trivium = Trivium.find(params[:id])		
