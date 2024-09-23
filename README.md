@@ -88,7 +88,7 @@ Para levantar el Docker de esta API, considere los siguientes comandos:
 #### Ver trivia específica
 
 ```http
-  GET /trivias/trivia/:uid
+  GET /trivias/trivia/:trivia_uid
 ```
 
 | Descripción | Body                |
@@ -108,7 +108,7 @@ Para levantar el Docker de esta API, considere los siguientes comandos:
 #### Editar trivia
 
 ```http
-  PATCH /trivias/trivia/:uid
+  PATCH /trivias/trivia/:trivia_uid
 ```
 
 | Descripción | Body                |
@@ -118,7 +118,7 @@ Para levantar el Docker de esta API, considere los siguientes comandos:
 #### Eliminar trivia
 
 ```http
-  DELETE /trivias/trivia/:uid
+  DELETE /trivias/trivia/:trivia_uid
 ```
 
 | Descripción | Body                |
@@ -140,7 +140,7 @@ Para levantar el Docker de esta API, considere los siguientes comandos:
 #### Ver pregunta específica
 
 ```http
-  GET /questions/questions/:uid
+  GET /questions/questions/:question_uid
 ```
 
 | Descripción | Body                |
@@ -155,12 +155,12 @@ Para levantar el Docker de esta API, considere los siguientes comandos:
 
 | Descripción | Body                |
 | :-------- | :------------------------- |
-| Crear pregunta | `{ "question": { "name": "name", "description": "description", "score": score, trivium_id: trivium.uid } }` |
+| Crear pregunta. IMPORTANTE: en este punto, la pregunta ya queda asociada a la trivia si se agrega el `uid` de la trivia correctamente. | `{ "question": { "name": "name", "description": "description", "score": score, trivium_id: trivium_uid } }` |
 
 #### Editar pregunta
 
 ```http
-  PATCH /questions/questions/:uid
+  PATCH /questions/questions/:question_uid
 ```
 
 | Descripción | Body                |
@@ -170,12 +170,64 @@ Para levantar el Docker de esta API, considere los siguientes comandos:
 #### Eliminar pregunta
 
 ```http
-  DELETE /questions/questions/:uid
+  DELETE /questions/questions/:question_uid
 ```
 
 | Descripción | Body                |
 | :-------- | :------------------------- |
 | Eliminar pregunta | `-` |
+
+### CRUD opciones
+
+#### Ver opciones disponibles
+
+```http
+  GET /questions/options
+```
+
+| Descripción | Body                |
+| :-------- | :------------------------- |
+| Enlistar opciones creadas | `-` |
+
+#### Ver opción específica
+
+```http
+  GET /questions/options/:option_uid
+```
+
+| Descripción | Body                |
+| :-------- | :------------------------- |
+| Mostrar opción específica | `-` |
+
+#### Crear opción
+
+```http
+  POST /questions/options/
+```
+
+| Descripción | Body                |
+| :-------- | :------------------------- |
+| Crear pregunta. IMPORTANTE: en este punto, la opción ya queda asociada a la pregunta si se agrega el `uid` de la pregunta correctamente. | `{ "option": { "name": "name", "correct_option": "true/false", question_id: question_uid } }` |
+
+#### Editar opción
+
+```http
+  PATCH /questions/options/:option_uid
+```
+
+| Descripción | Body                |
+| :-------- | :------------------------- |
+| Editar opción específica | `{ "option": { "name": "name", "correct_option": "true/false" } }` |
+
+#### Eliminar opción
+
+```http
+  DELETE /questions/options/:option_uid
+```
+
+| Descripción | Body                |
+| :-------- | :------------------------- |
+| Eliminar opción | `-` |
 
 ### Manejo de usuarios
 
@@ -192,7 +244,7 @@ Para levantar el Docker de esta API, considere los siguientes comandos:
 #### Listar jugadores de una trivia
 
 ```http
-  GET /trivias/:id/players
+  GET /trivias/:trivia_uid/players
 ```
 
 | Descripción | Body                |
@@ -202,7 +254,7 @@ Para levantar el Docker de esta API, considere los siguientes comandos:
 #### Agregar jugador a una trivia
 
 ```http
-  POST /trivias/:id/user/:user_uid
+  POST /trivias/:trivia_uid/user/:user_uid
 ```
 
 | Descripción | Body                |
@@ -212,10 +264,25 @@ Para levantar el Docker de esta API, considere los siguientes comandos:
 #### Quitar jugador de una trivia
 
 ```http
-  DELETE /trivias/:id/user/:user_uid
+  DELETE /trivias/:trivia_uid/user/:user_uid
 ```
 
 | Descripción | Body                |
 | :-------- | :------------------------- |
 | Quitar usuario de una trivia | `-` |
+
+### Manejo de Preguntas
+
+#### Listar preguntas una trivia específica
+
+```http
+  DELETE /trivias/:trivia_uid/questions/
+```
+
+| Descripción | Body                |
+| :-------- | :------------------------- |
+| Lista las preguntas asociadas a la trivia | `-` |
+
+
+
 

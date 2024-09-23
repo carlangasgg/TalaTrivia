@@ -1,6 +1,6 @@
 class Trivias::TriviaController < ApplicationController
   before_action :authorize_admin, only: [:create, :update, :destroy]
-  before_action :set_trivium, only: [:show, :update, :destroy, :add_user_to_trivia, :remove_user_to_trivia, :players_trivia]
+  before_action :set_trivium, only: [:show, :update, :destroy, :add_user_to_trivia, :remove_user_to_trivia, :players_trivia, :show_questions]
 	before_action :set_user, only: [:add_user_to_trivia, :remove_user_to_trivia]
 
 	def index
@@ -69,6 +69,12 @@ class Trivias::TriviaController < ApplicationController
     else
 			render json: { error: "Failed to remove user #{@user.email} to trivia." }, status: :unprocessable_entity
     end
+	end
+
+	def show_questions
+    questions = @trivium.questions
+		render json: QuestionSerializer.new(questions).serializable_hash[:data]
+  
 	end
 
 	private

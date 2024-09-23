@@ -1,7 +1,7 @@
 class Questions::QuestionsController < ApplicationController
   before_action :authorize_admin, only: [:create, :update, :destroy]
-  before_action :set_question, only: [:show, :update, :destroy, :add_question_to_trivia, :remove_question_to_trivia]
-	before_action :set_trivium, only: [:create, :add_question_to_trivia, :remove_question_to_trivia]
+  before_action :set_question, only: [:show, :update, :destroy, :show_options]
+	before_action :set_trivium, only: [:create]
 
 	def index
 		@questions = Question.all
@@ -38,24 +38,10 @@ class Questions::QuestionsController < ApplicationController
 		end
 	end
 
-  def add_question_to_trivia
-    if @trivia.questions << @question
-      render json: { message: "Question #{@question.name} has been added to trivia #{ @trivium.name }!" }, status: :ok
-    else
-      render json: { error: "Failed to add question #{@question.name} to trivia." }, status: :unprocessable_entity
-    end
-  
-  rescue ActiveRecord::RecordNotUnique
-		render json: { message: "Question #{@question.name} is already on trivia #{ @trivium.name }" }, status: :ok
+  def show_options
+    options = @question.question_options
+		render json: OptionSerializer.new(options).serializable_hash[:data]
   end
-
-	def remove_question_to_trivia
-    if @trivia.questions.destroy(@question)
-			render json: { message: "Question #{@question.name} has been removed from trivia #{ @trivium.name }!" }, status: :ok
-    else
-			render json: { error: "Failed to remove question #{@question.name} to trivia" }, status: :unprocessable_entity
-    end
-	end
 
 	private
 	
