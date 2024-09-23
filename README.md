@@ -125,6 +125,58 @@ Para levantar el Docker de esta API, considere los siguientes comandos:
 | :-------- | :------------------------- |
 | Eliminar trivia | `-` |
 
+### CRUD preguntas
+
+#### Ver preguntas disponibles
+
+```http
+  GET /questions/questions
+```
+
+| Descripción | Body                |
+| :-------- | :------------------------- |
+| Enlistar preguntas creadas | `-` |
+
+#### Ver pregunta específica
+
+```http
+  GET /questions/questions/:uid
+```
+
+| Descripción | Body                |
+| :-------- | :------------------------- |
+| Mostrar pregunta específica | `-` |
+
+#### Crear pregunta
+
+```http
+  POST /questions/questions/
+```
+
+| Descripción | Body                |
+| :-------- | :------------------------- |
+| Crear pregunta | `{ "question": { "name": "name", "description": "description", "score": score, trivium_id: trivium.uid } }` |
+
+#### Editar pregunta
+
+```http
+  PATCH /questions/questions/:uid
+```
+
+| Descripción | Body                |
+| :-------- | :------------------------- |
+| Editar pregunta específica | `{ "question": { "name": "name", "description": "description", "score": score } }` |
+
+#### Eliminar pregunta
+
+```http
+  DELETE /questions/questions/:uid
+```
+
+| Descripción | Body                |
+| :-------- | :------------------------- |
+| Eliminar pregunta | `-` |
+
 ### Manejo de usuarios
 
 #### Listar jugadores

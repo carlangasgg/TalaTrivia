@@ -4,6 +4,8 @@ class Question < ApplicationRecord
   belongs_to :trivium
   has_many :question_options, dependent: :destroy
 
+  validates :score, inclusion: { in: [1, 2, 3], message: "Field score must to be 1, 2, or 3" }
+
   private
 
   def generate_uid

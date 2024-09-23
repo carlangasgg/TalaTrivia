@@ -31,9 +31,9 @@ class Trivias::TriviaController < ApplicationController
 
 	def destroy
 		if @trivium.destroy! 
-			render json: { message: 'Product successfully deleted' }, status: :ok
+			render json: { message: 'Trivium successfully deleted' }, status: :ok
 		else
-			render json: { error: 'Failed to delete product' }, status: :unprocessable_entity
+			render json: { error: 'Failed to delete trivium' }, status: :unprocessable_entity
 		end
 	end
 
@@ -56,18 +56,18 @@ class Trivias::TriviaController < ApplicationController
     if @user.trivia << @trivium
       render json: { message: "User #{@user.email} is now on trivia #{ @trivium.name }!" }, status: :ok
     else
-      render json: { error: "Failed to add user #{@user.email} to trivia" }, status: :unprocessable_entity
+      render json: { error: "Failed to add user #{@user.email} to trivia." }, status: :unprocessable_entity
     end
   
   rescue ActiveRecord::RecordNotUnique
-		render json: { message: "User #{@user.email} is already on trivia #{ @trivium.name }" }, status: :ok
+		render json: { message: "User #{@user.email} is already on trivia #{ @trivium.name }." }, status: :ok
   end
 
 	def remove_user_to_trivia
     if @user.trivia.destroy(@trivium)
 			render json: { message: "User #{@user.email} has left trivia #{ @trivium.name }!" }, status: :ok
     else
-			render json: { error: "Failed to remove user #{@user.email} to trivia" }, status: :unprocessable_entity
+			render json: { error: "Failed to remove user #{@user.email} to trivia." }, status: :unprocessable_entity
     end
 	end
 
@@ -82,7 +82,7 @@ class Trivias::TriviaController < ApplicationController
 	def set_trivium
     @trivium = Trivium.find_by(uid: params[:id])
 	rescue ActiveRecord::RecordNotFound
-    render json: { error: 'Product not found' }, status: :not_found
+    render json: { error: 'Trivium not found' }, status: :not_found
 	end
 
 	def set_user
