@@ -19,5 +19,7 @@ services:
       - db
     environment:
       DATABASE_URL: postgres://postgres:password@db:5432/postgres
+    stdin_open: true
+    tty: true
 volumes:
   db_data:

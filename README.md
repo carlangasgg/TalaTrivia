@@ -30,7 +30,7 @@ Este es el desarrollo de TalaTrivia desarrollado por Carlos Bugueño
 
 Para levantar el Docker de esta API, considere los siguientes comandos:
 
-* `./docker-rails up´ levanta el docker`
+* `./docker-rails up` levanta el docker
 
 * `./docker-rails down` termina la ejecución del docker
 
@@ -39,6 +39,8 @@ Para levantar el Docker de esta API, considere los siguientes comandos:
 * `./docker-rails console` inicia la consola de Rails
 
 ## API
+
+### Autenticación
 
 #### Sign up
 
@@ -70,6 +72,8 @@ Para levantar el Docker de esta API, considere los siguientes comandos:
 | :-------- | :------------------------- |
 | Cerrar sesión | `{ "user": { "email": "email", "password": "password" } }` |
 
+
+### CRUD trivias
 
 #### Ver trivias disponibles
 
@@ -120,3 +124,46 @@ Para levantar el Docker de esta API, considere los siguientes comandos:
 | Descripción | Body                |
 | :-------- | :------------------------- |
 | Eliminar trivia | `-` |
+
+### Manejo de usuarios
+
+#### Listar jugadores
+
+```http
+  GET /trivias/players
+```
+
+| Descripción | Body                |
+| :-------- | :------------------------- |
+| Listar todos los jugadores disponibles | `-` |
+
+#### Listar jugadores de una trivia
+
+```http
+  GET /trivias/:id/players
+```
+
+| Descripción | Body                |
+| :-------- | :------------------------- |
+| Listar jugadores de una trivia | `-` |
+
+#### Agregar jugador a una trivia
+
+```http
+  POST /trivias/:id/user/:user_uid
+```
+
+| Descripción | Body                |
+| :-------- | :------------------------- |
+| Agregar usuario a una trivia | `-` |
+
+#### Quitar jugador de una trivia
+
+```http
+  DELETE /trivias/:id/user/:user_uid
+```
+
+| Descripción | Body                |
+| :-------- | :------------------------- |
+| Quitar usuario de una trivia | `-` |
+

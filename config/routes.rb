@@ -17,6 +17,10 @@ Rails.application.routes.draw do
   namespace :trivias do
     resources :trivia
     get 'start', to: 'trivia#start'
+    post '/:id/user/:uid', to: 'trivia#add_user_to_trivia'
+    delete '/:id/user/:uid', to: 'trivia#remove_user_to_trivia'
+    get 'players', to: 'trivia#players'
+    get '/:id/players', to: 'trivia#players_trivia'
   end
 
   # Defines the root path route ("/")

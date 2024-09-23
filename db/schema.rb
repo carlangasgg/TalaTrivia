@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_09_23_151837) do
+ActiveRecord::Schema[7.1].define(version: 2024_09_23_165231) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -41,6 +41,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_09_23_151837) do
     t.datetime "updated_at", null: false
     t.bigint "trivium_id"
     t.index ["trivium_id"], name: "index_questions_on_trivium_id"
+    t.index ["uid"], name: "index_questions_on_uid", unique: true
   end
 
   create_table "trivia", force: :cascade do |t|
@@ -49,6 +50,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_09_23_151837) do
     t.string "uid", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["uid"], name: "index_trivia_on_uid", unique: true
   end
 
   create_table "trivia_users", id: false, force: :cascade do |t|
@@ -68,6 +70,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_09_23_151837) do
     t.datetime "updated_at", null: false
     t.string "name"
     t.string "jti", null: false
+    t.string "uid"
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["jti"], name: "index_users_on_jti", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
