@@ -10,13 +10,17 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_09_22_001848) do
+ActiveRecord::Schema[7.1].define(version: 2024_09_23_151837) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
   create_table "answers", force: :cascade do |t|
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.bigint "user_id"
+    t.bigint "question_option_id"
+    t.index ["question_option_id"], name: "index_answers_on_question_option_id"
+    t.index ["user_id"], name: "index_answers_on_user_id"
   end
 
   create_table "question_options", force: :cascade do |t|
@@ -24,6 +28,8 @@ ActiveRecord::Schema[7.1].define(version: 2024_09_22_001848) do
     t.boolean "correct_option", default: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.bigint "question_id"
+    t.index ["question_id"], name: "index_question_options_on_question_id"
   end
 
   create_table "questions", force: :cascade do |t|
@@ -33,6 +39,8 @@ ActiveRecord::Schema[7.1].define(version: 2024_09_22_001848) do
     t.integer "score", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.bigint "trivium_id"
+    t.index ["trivium_id"], name: "index_questions_on_trivium_id"
   end
 
   create_table "trivia", force: :cascade do |t|
@@ -41,6 +49,12 @@ ActiveRecord::Schema[7.1].define(version: 2024_09_22_001848) do
     t.string "uid", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+  end
+
+  create_table "trivia_users", id: false, force: :cascade do |t|
+    t.bigint "user_id", null: false
+    t.bigint "trivium_id", null: false
+    t.index ["user_id", "trivium_id"], name: "index_trivia_users_on_user_id_and_trivium_id", unique: true
   end
 
   create_table "users", force: :cascade do |t|
@@ -59,4 +73,8 @@ ActiveRecord::Schema[7.1].define(version: 2024_09_22_001848) do
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 
+  add_foreign_key "answers", "question_options"
+  add_foreign_key "answers", "users"
+  add_foreign_key "question_options", "questions"
+  add_foreign_key "questions", "trivia"
 end

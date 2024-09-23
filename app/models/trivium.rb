@@ -1,6 +1,9 @@
 class Trivium < ApplicationRecord
   before_create :generate_uid
 
+  has_and_belongs_to_many :users
+  has_many :questions, dependent: :destroy
+
   private
 
   def generate_uid

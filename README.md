@@ -80,3 +80,43 @@ Para levantar el Docker de esta API, considere los siguientes comandos:
 | Descripción | Body                |
 | :-------- | :------------------------- |
 | Enlistar trivias creadas | `-` |
+
+#### Ver trivia específica
+
+```http
+  GET /trivias/trivia/:uid
+```
+
+| Descripción | Body                |
+| :-------- | :------------------------- |
+| Mostrar trivia específica | `-` |
+
+#### Crear trivia
+
+```http
+  POST /trivias/trivia/
+```
+
+| Descripción | Body                |
+| :-------- | :------------------------- |
+| Crear trivia | `{ "trivium": { "name": "name", "description": "description" } }` |
+
+#### Editar trivia
+
+```http
+  PATCH /trivias/trivia/:uid
+```
+
+| Descripción | Body                |
+| :-------- | :------------------------- |
+| Editar trivia específica | `{ "trivium": { "name": "name", "description": "description" } }` |
+
+#### Eliminar trivia
+
+```http
+  DELETE /trivias/trivia/:uid
+```
+
+| Descripción | Body                |
+| :-------- | :------------------------- |
+| Eliminar trivia | `-` |

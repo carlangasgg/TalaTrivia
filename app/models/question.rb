@@ -1,6 +1,9 @@
 class Question < ApplicationRecord
   before_create :generate_uid
 
+  belongs_to :trivium
+  has_many :question_options, dependent: :destroy
+
   private
 
   def generate_uid

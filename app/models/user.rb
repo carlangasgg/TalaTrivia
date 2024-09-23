@@ -6,6 +6,8 @@ class User < ApplicationRecord
          :recoverable, :rememberable, :validatable,
          :jwt_authenticatable, jwt_revocation_strategy: self
 
+  has_and_belongs_to_many :trivia
+
   ROLES = %w[admin player].freeze
 
   after_initialize do

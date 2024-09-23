@@ -1,6 +1,6 @@
 class Trivias::TriviaController < ApplicationController
   before_action :authorize_admin, only: [:create, :update, :destroy]
-  before_action :set_category, only: [:show, :update, :destroy]
+  before_action :set_trivium, only: [:show, :update, :destroy]
 
 	def index
 		@trivia = Trivium.all
@@ -21,7 +21,7 @@ class Trivias::TriviaController < ApplicationController
 	end
 
 	def update
-		if @category.update(trivium_params)
+		if @trivium.update(trivium_params)
 			render json: TriviumSerializer.new(@trivium).serializable_hash[:data][:attributes]
 		else
 			render json: @trivium.errors, status: :unprocessable_entity
@@ -29,8 +29,11 @@ class Trivias::TriviaController < ApplicationController
 	end
 
 	def destroy
-		@trivium.destroy!
-		head :no_content
+		if @trivium.destroy! 
+			render json: { message: 'Product successfully deleted' }, status: :ok
+		else
+			render json: { error: 'Failed to delete product' }, status: :unprocessable_entity
+		end
 	end
 
   def start
@@ -46,7 +49,9 @@ class Trivias::TriviaController < ApplicationController
 	end
 
 	def set_trivium
-    @trivium = Trivium.find(params[:id])		
+    @trivium = Trivium.find_by(uid: params[:id])
+	rescue ActiveRecord::RecordNotFound
+    render json: { error: 'Product not found' }, status: :not_found
 	end
 
 	def trivium_params
