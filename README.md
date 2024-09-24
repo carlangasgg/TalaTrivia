@@ -1,6 +1,6 @@
 # README
 
-Este es el desarrollo de TalaTrivia desarrollado por Carlos Bugueño
+Este es el desarrollo de TalaTrivia desarrollado por Carlos Bugueño. Cualquier observación, por favor con gusto lo recibiré <3
 
 ## DATOS TÉCNICOS
 
@@ -14,17 +14,15 @@ Este es el desarrollo de TalaTrivia desarrollado por Carlos Bugueño
 
 ## SUPUESTOS A CONSIDERAR
 
-* Database creation
+* Toda consulta (exceptuando login, logout and submit) se deben hacer con un usuario activo
 
-* Database initialization
+* Para consultar a la API, se debe contar con un usuario logeado. Para efectos de prueba, se usó Postman, capturando en el header el token de autenticación `authorization: Bearer abc....xyz` al momento de iniciar sesión. Dicho token debe estar presente en cada consulta, pues la API funciona sólo con usuarios logeados
 
-* How to run the test suite
+* Se diferencia usuario `admin` de `player`, puntualmente en las CRUD de administración de trivias, preguntas y opciones
 
-* Services (job queues, cache servers, search engines, etc.)
+* La aplicación cuenta con un archivo de poblado de información básica para la base de datos. Se ejecuta en el `docker-compose.yml` al momento de iniciarlo. Por lo mismo, Si se baja el servidor y se vuelve a levantar, la información en la base de datos se borra y lo vuelve a poblar. No afecta para la dinámica de CRUD ni para la trivia en sí
 
-* Deployment instructions
-
-* ...
+* Se confía en que el usuario no es tan malicioso para botar el sistema. Aún así, se hizo lo posible para que fuese funcional, pero hay cosas que, por la escalabilidad de la API no pude integrar, como múltiples respuestas a una sola trivia, marcar respuestas como inválidad o validaciones similares.
 
 ## DOCKER
 
@@ -39,6 +37,8 @@ Para levantar el Docker de esta API, considere los siguientes comandos:
 * `./docker-rails console` inicia la consola de Rails
 
 ## API
+
+Se hace una lista de las APIs importantes para esta tarea. De todas maneras, si olvidé enlistar alguna, se puede ejecutar `rails routes` dentro de la carpeta raíz para mostrar todas las rutas de Rails y, por ende, las consultas que se pueden realizar. Está bienvenido para probar (y romper) lo que necesite de la API.
 
 ### Autenticación
 
@@ -70,7 +70,7 @@ Para levantar el Docker de esta API, considere los siguientes comandos:
 
 | Descripción | Body                |
 | :-------- | :------------------------- |
-| Cerrar sesión | `{ "user": { "email": "email", "password": "password" } }` |
+| Cerrar sesión | `-` |
 
 
 ### CRUD trivias
@@ -273,16 +273,89 @@ Para levantar el Docker de esta API, considere los siguientes comandos:
 
 ### Manejo de Preguntas
 
-#### Listar preguntas una trivia específica
+#### Listar preguntas de una trivia específica
 
 ```http
-  DELETE /trivias/:trivia_uid/questions/
+  GET /trivias/:trivia_uid/questions/
 ```
 
 | Descripción | Body                |
 | :-------- | :------------------------- |
 | Lista las preguntas asociadas a la trivia | `-` |
 
+#### Listar opciones de una pregunta específica
 
+```http
+  GET /questions/:question_uid/options/
+```
 
+| Descripción | Body                |
+| :-------- | :------------------------- |
+| Lista las preguntas asociadas a la trivia | `-` |
+
+### Manejo de Preguntas
+
+#### Listar preguntas de una trivia específica
+
+```http
+  GET /trivias/:trivia_uid/questions/
+```
+
+| Descripción | Body                |
+| :-------- | :------------------------- |
+| Lista las preguntas asociadas a la trivia | `-` |
+
+### La trivia
+
+#### Selección de trivia
+
+```http
+  GET /trivias/select/
+```
+
+| Descripción | Body                |
+| :-------- | :------------------------- |
+| Se muestran las trivias del usuario actual. Se muestra el link directo para iniciar la trivia | `-` |
+
+#### Inicio de trivia
+
+```http
+  GET /trivias/:trivia_uid/start/
+```
+
+| Descripción | Body                |
+| :-------- | :------------------------- |
+| El corazón del juego. Se muestran las preguntas y opciones de la trivia, y se indica cómo responder la trivia. | `-` |
+
+#### Envío de las respuestas
+
+```http
+  POST /anwsers/submit/
+```
+
+| Descripción | Body                |
+| :-------- | :------------------------- |
+| El envío de las respuestas se debe usar con la información entregada en `/trivias/:trivia_uid/start/`. Es decir, listar según el `body` a continuación las `uid` de la opción a elegir, una por una, en el orden que se muestran las preguntas en la consulta anterior. | `{"answers": [{ "answer": "uid_opción_1" },{ "answer": "uid_opción_2" },{ "answer": "uid_opción_3" }]}` |
+
+### PUNTUACIÓN Y SCOREBOARD
+
+#### Puntuación del usuario
+
+```http
+  POST /anwsers/:trivia_uid/show_answers/
+```
+
+| Descripción | Body                |
+| :-------- | :------------------------- |
+| Se entrega la puntuación obtenida en la trivia consultada. | `-` |
+
+#### Scoreboard
+
+```http
+  POST /anwsers/:trivia_uid/scoreboard/
+```
+
+| Descripción | Body                |
+| :-------- | :------------------------- |
+| Se enlista a los participantes de la trivia por puntuación obtenida. | `-` |
 

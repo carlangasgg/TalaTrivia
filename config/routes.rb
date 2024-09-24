@@ -16,8 +16,9 @@ Rails.application.routes.draw do
 
   namespace :trivias do
     resources :trivia
-    get 'start', to: 'trivia#start'
     get 'players', to: 'trivia#players'
+    get 'select', to: 'trivia#select_trivia'
+    get '/:id/start', to: 'trivia#start'
     get '/:id/players', to: 'trivia#players_trivia'
     post '/:id/user/:uid', to: 'trivia#add_user_to_trivia'
     delete '/:id/user/:uid', to: 'trivia#remove_user_to_trivia'
@@ -30,6 +31,9 @@ Rails.application.routes.draw do
     get '/:id/options', to: 'questions#show_options'
   end
 
-  # Defines the root path route ("/")
-  # root "posts#index"
+  namespace :answers do
+    post 'submit', to: 'answers#submit'
+    get '/:uid/show_answers', to: 'answers#show_answers'
+    get '/:uid/scoreboard', to: 'answers#scoreboard'
+  end
 end

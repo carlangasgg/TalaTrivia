@@ -9,6 +9,7 @@ class User < ApplicationRecord
   before_create :generate_uid
   
   has_and_belongs_to_many :trivia
+  has_many :answers
 
   scope :players, -> { where(role: 'player') }
 

@@ -1,6 +1,6 @@
 class Trivias::TriviaController < ApplicationController
   before_action :authorize_admin, only: [:create, :update, :destroy]
-  before_action :set_trivium, only: [:show, :update, :destroy, :add_user_to_trivia, :remove_user_to_trivia, :players_trivia, :show_questions]
+  before_action :set_trivium, only: [:show, :update, :destroy, :add_user_to_trivia, :remove_user_to_trivia, :players_trivia, :show_questions, :start]
 	before_action :set_user, only: [:add_user_to_trivia, :remove_user_to_trivia]
 
 	def index
@@ -37,10 +37,6 @@ class Trivias::TriviaController < ApplicationController
 		end
 	end
 
-  def start
-    render json: { message: 'Im here' }
-  end
-
 	def players
 		@players = User.players
 		render json: UserSerializer.new(@players).serializable_hash[:data]
@@ -50,7 +46,6 @@ class Trivias::TriviaController < ApplicationController
 		@players = @trivium.users.players
 		render json: UserSerializer.new(@players).serializable_hash[:data]
 	end
-
 
   def add_user_to_trivia
     if @user.trivia << @trivium
@@ -77,6 +72,16 @@ class Trivias::TriviaController < ApplicationController
   
 	end
 
+	def select_trivia
+		@trivia  = current_user.trivia
+		render json: TriviumSerializer.new(@trivia)
+	end
+
+	def start
+		@questions = @trivium.questions.includes(:question_options)
+    render json: QuestionStartSerializer.new(@questions).serializable_hash
+	end
+
 	private
 	
 	def authorize_admin
@@ -95,9 +100,5 @@ class Trivias::TriviaController < ApplicationController
     @user = User.find_by(uid: params[:uid])
 	rescue ActiveRecord::RecordNotFound
     render json: { error: 'User not found' }, status: :not_found
-	end
-
-	def trivium_params
-		params.require(:trivium).permit(:name, :description)
 	end
 end
